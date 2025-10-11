@@ -11,6 +11,7 @@ import 'pages/SignUpPage.dart';
 import 'pages/home_page.dart';
 import 'pages/model/user_model.dart';
 import 'pages/model/guru_provider.dart';
+import 'pages/model/ulasan_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +23,10 @@ void main() async {
   await initializeDateFormatting('id_ID', null);
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => GuruProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => GuruProvider()),
+        ChangeNotifierProvider(create: (context) => UlasanProvider()),
+      ],
       child: const MyApp(),
     ),
   );
