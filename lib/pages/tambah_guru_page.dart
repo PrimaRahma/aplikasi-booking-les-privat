@@ -1,5 +1,3 @@
-// lib/pages/tambah_guru_page.dart
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'model/guru_model.dart';
@@ -15,7 +13,6 @@ class TambahGuruPage extends StatefulWidget {
 }
 
 class _TambahGuruPageState extends State<TambahGuruPage> {
-  // --- Text Editing Controllers ---
   final _namaController = TextEditingController();
   final _gelarController = TextEditingController();
   final _noTeleponController = TextEditingController();

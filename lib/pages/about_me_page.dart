@@ -145,9 +145,8 @@ class AboutMePage extends StatelessWidget {
                           _buildSocialButton(
                             icon: Icons.email,
                             label: "Email",
-                            onTap: () => _launchUrl(
-                              'mailto:primamifta75@gmail.com',
-                            ), // <-- PASTIKAN ADA 'mailto:'
+                            onTap: () =>
+                                _launchUrl('mailto:primamifta75@gmail.com'),
                             color: highlightColor,
                             textColor: textColor,
                           ),

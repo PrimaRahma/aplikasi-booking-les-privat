@@ -4,22 +4,20 @@ import 'model/guru_model.dart';
 import 'model/guru_provider.dart';
 import 'login_page.dart';
 import 'edit_guru_page.dart';
+import 'admin_ulasan_page.dart';
 
 class AdminPage extends StatelessWidget {
   const AdminPage({super.key});
 
-  // FUNGSI BARU UNTUK MENGAMBIL GAMBAR DARI URL ATAU ASSET
   ImageProvider getImage(String path) {
     if (path.isEmpty) {
       return const AssetImage("assets/panda.png");
     }
     try {
-      // Cek jika path adalah URL, gunakan NetworkImage. Jika tidak, gunakan AssetImage.
       return path.startsWith('http')
           ? NetworkImage(path)
           : AssetImage(path) as ImageProvider;
     } catch (e) {
-      // Jika terjadi error (misal URL tidak valid), tampilkan gambar default
       return const AssetImage("assets/panda.png");
     }
   }
@@ -37,10 +35,21 @@ class AdminPage extends StatelessWidget {
         elevation: 0,
         actions: [
           IconButton(
+            icon: const Icon(Icons.rate_review_outlined),
+            tooltip: "Lihat Ulasan",
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AdminUlasanPage(),
+                ),
+              );
+            },
+          ),
+          IconButton(
             icon: const Icon(Icons.logout),
             tooltip: "Logout",
             onPressed: () {
-              // Kembali ke halaman login
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const LoginPage()),
@@ -68,8 +77,6 @@ class AdminPage extends StatelessWidget {
               ),
               leading: CircleAvatar(
                 radius: 25,
-                // --- BAGIAN INI DIUBAH ---
-                // Memanggil fungsi getImage untuk menampilkan foto
                 backgroundImage: getImage(guru.photo),
               ),
               title: Text(

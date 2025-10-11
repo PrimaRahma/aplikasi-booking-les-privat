@@ -20,14 +20,11 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
-
-    // Animasi gambar berputar
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 2),
     )..repeat();
 
-    // Animasi mengetik teks
     _typingTimer = Timer.periodic(const Duration(milliseconds: 200), (timer) {
       if (_charIndex < _fullText.length) {
         setState(() {

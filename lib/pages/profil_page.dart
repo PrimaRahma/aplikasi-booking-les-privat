@@ -3,6 +3,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -11,6 +12,8 @@ import 'login_page.dart';
 import 'help_center_page.dart';
 import 'terms_page.dart';
 import 'about_me_page.dart';
+import 'model/ulasan_model.dart';
+import 'model/ulasan_provider.dart';
 
 class ProfilPage extends StatefulWidget {
   final UserModel user;
@@ -181,9 +184,7 @@ class _ProfilPageState extends State<ProfilPage> {
                 itemBuilder: (context, _) =>
                     const Icon(Icons.star, color: Colors.amber),
                 onRatingUpdate: (rating) {
-                  setState(() {
-                    _rating = rating;
-                  });
+                  _rating = rating;
                 },
               ),
               const SizedBox(height: 20),
@@ -207,9 +208,13 @@ class _ProfilPageState extends State<ProfilPage> {
             TextButton(
               child: const Text("Kirim"),
               onPressed: () {
-                print(
-                  "Rating: $_rating, Feedback: ${_feedbackController.text}",
+                final ulasanBaru = UlasanModel(
+                  userName: widget.user.name,
+                  rating: _rating,
+                  feedback: _feedbackController.text,
+                  timestamp: DateTime.now(),
                 );
+                context.read<UlasanProvider>().tambahUlasan(ulasanBaru);
                 Navigator.of(context).pop();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
@@ -218,6 +223,9 @@ class _ProfilPageState extends State<ProfilPage> {
                   ),
                 );
                 _feedbackController.clear();
+                setState(() {
+                  _rating = 3.0;
+                });
               },
             ),
           ],
@@ -412,7 +420,6 @@ class _ProfilPageState extends State<ProfilPage> {
             },
           ),
           const SizedBox(height: 10),
-
           _infoCard(
             icon: Icons.info_outline,
             title: "About Me",
@@ -427,7 +434,6 @@ class _ProfilPageState extends State<ProfilPage> {
             },
           ),
           const SizedBox(height: 10),
-
           _infoCard(
             icon: Icons.star_outline,
             title: "Beri Rating",
@@ -437,7 +443,6 @@ class _ProfilPageState extends State<ProfilPage> {
             onTap: _showRatingDialog,
           ),
           const SizedBox(height: 25),
-
           Text(
             "Device Information:",
             style: TextStyle(
